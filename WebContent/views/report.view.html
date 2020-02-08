@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Training</title>
+</head>
+<body>
+	<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Training</h3>
+
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active:model.isSet('participant')}">
+                            <a href="" ng-click="model.setTab('participant')">
+                                Participant </a>
+                        </li>
+                        <li ng-class="{active:model.isSet('targetGroup')}">
+                            <a href="" ng-click="model.setTab('targetGroup')">
+                                Target Group </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSet('participant')">
+                            <h4>Report - Participant</h4>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.targetGroups.selected" theme="select2" style="min-width: 300px;" title="Choose a target group" ng-change="model.filterParticipants($select.selected)">
+										    <ui-select-match placeholder="Select a target group in the list or search the name...">{{$select.selected.tgName}}</ui-select-match>
+										    <ui-select-choices repeat="tg in model.targetGroups | propsFilter: {tgName: $select.search}">
+										      <div ng-bind-html="tg.tgName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            	
+                            	
+                            	<div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Participant:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.participantsDropDown.selected" theme="select2" style="min-width: 300px;" title="Choose a target group" ng-change="model.loadReportForParticipant($select.selected)">
+										    <ui-select-match placeholder="Select a participant in the list or search the user name...">{{$select.selected.userName}}</ui-select-match>
+										    <ui-select-choices repeat="p in model.participantsDropDown | propsFilter: {userName: $select.search}">
+										      <div ng-bind-html="p.userName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            	<br>                            	
+                            	
+                            	<div ng-if="model.loadedReport" class="chartOverflow">
+	                            	<div  
+									    data-ac-chart="'line'" 
+									    data-ac-data="model.reportDataCorrectImageResponses" 
+									    data-ac-config="model.reportConfigCorrectImage" 
+									    class="chart"
+									    ng-style="{ 'width' : model.chartWidth }">
+									  </div>
+								</div>
+								<br>
+								<div ng-if="model.loadedReport" class="chartOverflow">	  
+									  <div  
+									    data-ac-chart="'line'" 
+									    data-ac-data="model.reportDataWrongImageResponses" 
+									    data-ac-config="model.reportConfigWrongImage" 
+									    class="chart"
+									    ng-style="{ 'width' : model.chartWidth }">
+									  </div>
+								</div>
+								
+								<br>
+								
+								<div ng-if="model.loadedReport" class="chartOverflow">	  
+									  <div  
+									    data-ac-chart="'bar'" 
+									    data-ac-data="model.reportDataCorrectAndIncorrectCount" 
+									    data-ac-config="model.reportConfigResponseCount" 
+									    class="chart"
+									    ng-style="{ 'width' : model.chartWidth }">
+									  </div>
+								</div>
+								
+								<div ng-show="model.showErrorMessage" class="alert alert-danger" role="alert">{{model.loadTrainingMessage}}</div>
+                            </div>
+				
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('targetGroup')">
+                        	<h4>Report - Target Group</h4>
+                        	
+                        	<div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.targetGroups.selected" theme="select2" style="min-width: 300px;" title="Choose a target group" ng-change="model.getReportForTargetGroup($select.selected)">
+										    <ui-select-match placeholder="Select a target group in the list or search the name...">{{$select.selected.tgName}}</ui-select-match>
+										    <ui-select-choices repeat="tg in model.targetGroups | propsFilter: {tgName: $select.search}">
+										      <div ng-bind-html="tg.tgName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            
+                            <br>
+                            <div ng-if="model.enableReportDownloadLink">
+	                            <div class="form-group">
+	                            	<div class="col-sm-7">
+		                            	<h4>Training attached to this target group is: {{model.targetGroups.selected.tgTrainingName}}</h4>
+		                            	<a href={{model.imageReportDownloadLink}}><span class="glyphicon glyphicon-download-alt incrsize"></span>Download Participant Report for Image Responses for {{model.targetGroups.selected.tgName}} group</a>
+		                            	<br>
+		                            	<a href={{model.questionReportDownloadLink}}><span class="glyphicon glyphicon-download-alt incrsize"></span>Download Participant Report for Question Responses for {{model.targetGroups.selected.tgName}} group</a>
+	                            	</div>
+	                            </div>
+                            </div>
+                            </div>
+						</div>
+                     </div>
+                 </div>
+             </div>
+      </div>
+<br>
+<br>
+
+<br>
+<br>
+</body>
+</html>

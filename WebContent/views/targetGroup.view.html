@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+Bootstrap Line Tabs by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Target Groups</h3>
+
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active:model.isSet('search')}">
+                            <a href="" ng-click="model.setTab('search')">
+                                Search </a>
+                        </li>
+                        <li ng-class="{active:model.isSet('create')}">
+                            <a href="" ng-click="model.setTab('create')">
+                                Create </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSet('search')">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the target group" ng-model="model.searchTg.tgName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.searchTg.tgDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.searchTg.tgKeywords">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
+                                    <div class="col-sm-7">
+                                    <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgLocation" required="required">
+                                        <option value="">Select Location</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
+                                    <div class="col-sm-7">
+                                   <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.searchTg.tgTraining" required="required">
+                                        <option value="">Select Training</option>
+                                        </select>
+                                        </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchTargetGroups(model.searchTg)">Search</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+							<div ng-if="model.isSearchClicked">
+           		<h4>Search Results</h4>
+           		<div class="table-responsive" id="formtable">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th> Target Group Name</th>
+            
+            <th> Location</th>
+            <th> Training</th>
+            <th> Registration Code</th>
+            <th> Actions</th>
+        </tr>
+     
+        </thead>
+        <tbody>
+        <tr ng-repeat = "tg in model.targetGroupSearchResults">
+            <td><a href=""><span data-toggle="modal"
+                                                 data-target="#myModalForTargetGroupDetails" ng-click="model.selectTargetGroupDetails($index)"> {{tg.tgName}}</span> </a></td>
+            
+            <td> {{tg.tgLocationName}} </td>
+            <td> {{tg.tgTrainingName}} </td>
+            <td> {{tg.tgRegCode}} </td>
+            <td>
+                <a href="">
+                <span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
+                                                 data-target="#myModal" ng-click="model.selectTargetGroup($index)">
+                                                 </span>
+                                                 </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+           </div> 
+
+                        </div>
+                        
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
+                           <div class="form-horizontal" ng-form name="model.targetGroupCreateForm">
+                           
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-2 control-label">Target Group Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="createTargetGroupName" class="form-control" id="inputName2" placeholder="Name of the target group"  ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/"  required="required" ng-maxlength="150" ng-minlength="2" ng-model="model.createTargetGroup.name"  >
+                                        <div ng-messages="model.targetGroupCreateForm.createTargetGroupName.$dirty && model.targetGroupCreateForm.createTargetGroupName.$error" style="color:maroon">
+                                        <div ng-message="required">This field is required.</div>
+                                        <div ng-message="minlength">Minimum 2 characters</div>
+                                        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+									    </div>
+                                    </div >
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.createTargetGroup.description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.createTargetGroup.keywords">
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Location:</label>
+                                    <div class="col-sm-7">
+                                        <select name="locations" ng-options='loc.locationId as loc.locationName for loc in model.locationList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.location" required="required">
+                                       
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Training:</label>
+                                    <div class="col-sm-7">
+                                        <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' class="form-control" id="inputEmail3"  ng-model="model.createTargetGroup.training" required="required">
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block"  ng-click="model.create(model.createTargetGroup)" ng-disabled="model.targetGroupCreateForm.$invalid">Create</button>
+                                    </div>
+                                </div>
+                                <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Target Group successfully created with registration code : {{model.regCode}}</div>
+                                 <div ng-show="model.isCreateFailed" class="alert alert-danger" role="alert">Target Group creation failed ! Please check the information entered again.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+        <!-- Modal view content -->
+       <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Target Group</h4>
+                </div>
+                <div class="modal-body">
+                <div class="form-horizontal" ng-form name="model.targetGroupUpdateForm">
+                   
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Target Group Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="updateTGN" id="inputName2" placeholder="Name of the Target group name" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/"  ng-model="model.tgUpdate.tgName" required="required">
+                                        <div ng-messages="model.targetGroupUpdateForm.updateTGN.$dirty && model.targetGroupUpdateForm.updateTGN.$error" style="color:maroon">
+                                        <div ng-message="required">This field is required.</div>        
+                                        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>                                
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the target group" ng-model="model.tgUpdate.tgDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name = "keywordforTG" class="form-control" id="inputEmail3" placeholder="Keywords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" ng-model="model.tgUpdate.tgKeywords" >
+                                        <div ng-messages="model.targetGroupUpdateForm.keywordforTG.$error" style="color:maroon">
+                                        <div ng-message ="pattern">Can be alphanumeric with ',' '-' or space and max 300 characters</div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Location</label>
+                                    <div class="col-sm-7">
+                                        <select name="trainings" ng-options='loc.locationId as loc.locationName for loc in model.locationList' ng-model="model.tgUpdate.tgLocation" required="required">
+                                       
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Training</label>
+                                    <div class="col-sm-7">
+                                        <select name="trainings" ng-options='tr.trainingId as tr.trainingName for tr in model.trainingList' ng-model="model.tgUpdate.tgTraining" required="required">
+                                        
+                                        </select>
+                                        <span ng-show="model.targetGroupUpdateForm.$dirty && model.targetGroupUpdateForm.$invalid">Select Training</span>
+                                    </div>
+                                </div>
+
+              
+
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.tgUpdate)" ng-disabled="model.targetGroupUpdateForm.$invalid" >Update</button>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <!-- Modal content for Target group details -->
+          <div id="myModalForTargetGroupDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Target Group Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Target Group Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgName}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Registration Code:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgRegCode}}
+                                    </div>
+                                </div>
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgKeywords}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Location:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgLocationName}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Training:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedTg.tgTrainingName}}
+                                    </div>
+                                </div>
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<br>
+<br>
+</body>
+</html>
+</body>
+</html>

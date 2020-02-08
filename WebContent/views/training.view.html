@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Training</title>
+</head>
+<body>
+	<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Training</h3>
+
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active:model.isSet('search')}">
+                            <a href="" ng-click="model.setTab('search')">
+                                Search </a>
+                        </li>
+                        <li ng-class="{active:model.isSet('create')}">
+                            <a href="" ng-click="model.setTab('create')">
+                                Create </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSet('search')">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select ng-model="model.trainings.selected" theme="select2" style="min-width: 300px;" title="Choose a training" ng-change="model.getSelected($select.selected)">
+										    <ui-select-match placeholder="Select a training in the list or search the name...">{{$select.selected.trainingName}}</ui-select-match>
+										    <ui-select-choices repeat="training in model.trainings | propsFilter: {trainingName: $select.search}">
+										      <div ng-bind-html="training.trainingName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+                                    </div>
+                            	</div>
+                            </div>
+                         </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+				
+				<div ng-if="model.isSelected">
+							
+	           		<h4>Training Details</h4>
+	           		<div class="form-horizontal" ng-form name="model.updateTrainingForm">
+                        <div class="form-group required">
+                            <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="updateTrainingName" class="form-control" id="inputName2" required="required" placeholder="Name of the location" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" ng-model="model.selectedTrainingDetails.trainingName" ng-change="model.checkDuplicateTrainingName(model.selectedTrainingDetails.trainingName)">
+                                <div ng-messages="model.updateTrainingForm.updateTrainingName.$error" style="color:maroon">
+							       	<div ng-message="required">This field is required.</div>
+							       	<div ng-message="trainingNameError">The training name already exists. Please enter another name.</div>
+							       	<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+							    </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" name="updateTrainingDescription" class="form-control" id="inputName3" placeholder="Description of the location" ng-maxlength="1000" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+                                <div ng-messages="model.updateTrainingForm.updateTrainingDescription.$error" style="color:maroon">
+							        <div ng-message="maxlength">Your field is too long. Max allowed: 1000 chars.</div>
+							    </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" name="updateTrainingKeywords" class="form-control" id="inputEmail3" placeholder="Keywords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" ng-model="model.selectedTrainingDetails.trainingKeywords">
+                                </textarea>
+                                <div ng-messages="model.updateTrainingForm.updateTrainingKeywords.$error" style="color:maroon">
+							       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
+							    </div>
+                            </div>
+                        </div>
+           			
+	           			<h4>Questions asked in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th> Question</th>
+					            <th> Question Category</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
+					            <td> {{trainingQuestion.questionName}} </td>
+					            <td> {{trainingQuestion.questionCategoryName}} </td>
+					            
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table>
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal" ng-click="model.initTrainingQuestions()">Add Question</button>
+                            </div>
+                        </div>
+					    
+					    
+					    <h4>Images shown in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th>Image Category</th>
+					            <th>Image Type</th>
+					            <th>Duration</th>
+					            <th>Number of Images</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingImage in model.selectedTrainingDetails.trainingImages">
+					            <td> {{trainingImage.imageCategoryName}} </td>
+					            <td> {{trainingImage.imageType}} </td>
+					            <td> <input type="text" ng-model="trainingImage.duration" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td> <input type="text" ng-model="trainingImage.noOfImages" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingImage($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table> 
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addImagesModal" ng-click="model.initTrainingImages()">Add Images</button>
+                            </div>
+                        </div>
+					    <div class="form-group">
+	                         <div class="col-sm-offset-2 col-sm-7">
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateTraining()" ng-disabled="model.updateTrainingForm.$invalid">Update Training</button>
+	                         </div>
+	                     </div>
+					</div>
+					<div ng-show="model.isUpdateSuccessful" class="alert alert-success" role="alert">Training updated successfully.</div>
+                    <div ng-show="model.updateFailed" class="alert alert-danger" role="alert">Failed to update training. Please check the information entered above.</div>
+           		</div>
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
+                        	<h4>Training Details</h4>
+                            <div class="form-horizontal" ng-form name="model.createTrainingForm">
+		                        <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-2 control-label">Training Name:</label>
+		                            <div class="col-sm-7">
+		                                <input type="text" name="createTrainingName" class="form-control" id="inputName2" placeholder="Name of the training" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" required="required" ng-model="model.selectedTrainingDetails.trainingName" ng-change="model.checkDuplicateTrainingName(model.selectedTrainingDetails.trainingName)">
+		                                <div ng-messages="model.createTrainingForm.createTrainingName.$error" style="color:maroon">
+									       	<div ng-message="required">This field is required.</div>
+									       	<div ng-message="trainingNameError">The training name already exists. Please enter another name.</div>
+									       	<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+									    </div>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+		                            <div class="col-sm-7">
+		                                <textarea type="text" name="createTrainingDescription" class="form-control" id="inputName3" ng-maxlength="1000" placeholder="Description of the training" ng-model="model.selectedTrainingDetails.trainingDescription"></textarea>
+		                                <div ng-messages="model.createTrainingForm.createTrainingDescription.$error" style="color:maroon">
+									        <div ng-message="maxlength">Your field is too long. Max allowed: 1000 chars.</div>
+									    </div>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+		                            <div class="col-sm-7">
+		                                <textarea type="text" name="createTrainingKeywords" class="form-control" id="inputEmail3" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/"  placeholder="Keywords" ng-model="model.selectedTrainingDetails.trainingKeywords">
+		                                </textarea>
+		                                <div ng-messages="model.createTrainingForm.createTrainingKeywords.$error" style="color:maroon">
+									       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
+									    </div>
+		                            </div>
+		                        </div>
+                                
+		                    <h4>Questions asked in this training</h4>
+	           				<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th> Question</th>
+					            <th> Question Category</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingQuestion in model.selectedTrainingDetails.trainingQuestions">
+					            <td> {{trainingQuestion.questionName}} </td>
+					            <td> {{trainingQuestion.questionCategoryName}} </td>
+					            
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingQuestion($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table>
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal" ng-click="model.initTrainingQuestions()">Add Question</button>
+                            </div>
+                        </div>
+					    
+					    
+					    <h4>Images shown in this training</h4>
+	           			<table class="table table-striped table-bordered">
+					        <thead>
+					        <tr>
+					            <th>Image Category</th>
+					            <th>Image Type</th>
+					            <th>Duration</th>
+					            <th>Number of Images</th>
+					            <th> Actions</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        <tr ng-repeat = "trainingImage in model.selectedTrainingDetails.trainingImages">
+					            <td> {{trainingImage.imageCategoryName}} </td>
+					            <td> {{trainingImage.imageType}} </td>
+					            <td> <input type="text" ng-model="trainingImage.duration" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td> <input type="text" ng-model="trainingImage.noOfImages" class="form-control ng-pristine ng-untouched ng-valid"></td>
+					            <td>
+					                <a><span class="glyphicon glyphicon-remove incrsize" ng-click="model.removeTrainingImage($index)"></span></a>
+					            </td>
+					        </tr>
+					        </tbody>
+					    </table> 
+					    <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-default btn-info btn-block" data-toggle="modal" data-target="#addImagesModal" ng-click="model.initTrainingImages()">Add Images</button>
+                            </div>
+                        </div>
+					    <div class="form-group">
+	                         <div class="col-sm-offset-2 col-sm-7">
+	                             <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createTraining()" ng-disabled="model.createTrainingForm.$invalid">Create Training</button>
+	                         </div>
+	                     </div>
+					</div>
+                                 <div ng-show="model.createSuccessful" class="alert alert-success" role="alert">Training created successfully.</div>
+                                 <div ng-show="model.createFailed" class="alert alert-danger" role="alert">Failed to create training</div>
+					</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    <!-- Modal view content -->
+       <div id="addQuestionModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Question</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="trainingQuestionsAddForm">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Question Category:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select name="trainingQuestionCategory" ng-model="model.questionCategories.selected" required="required" theme="select2" style="min-width: 300px;" title="Choose a question category" ng-change="model.populateQuestions($select.selected)">
+										    <ui-select-match placeholder="Select a question category in the list or search it...">{{$select.selected.questionCategoryName}}</ui-select-match>
+										    <ui-select-choices repeat="questionCategory in model.questionCategories | propsFilter: {questionCategoryName: $select.search}">
+										      <div ng-bind-html="questionCategory.questionCategoryName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+										  <div ng-messages="trainingQuestionsAddForm.trainingQuestionCategory.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									    </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Question:</label>
+                                    <div class="col-sm-7">
+                                        <ui-select name="trainingQuestionName" ng-model="model.questionsDropDown.selected" required="required" theme="select2" style="min-width: 300px;" title="Choose a question" ng-change="model.checkDuplicate()">
+										    <ui-select-match placeholder="Select a question from above category in the list...">{{$select.selected.questionName}}</ui-select-match>
+										    <ui-select-choices repeat="question in model.questionsDropDown | propsFilter: {questionName: $select.search}">
+										      <div ng-bind-html="question.questionName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+										  <div ng-messages="trainingQuestionsAddForm.trainingQuestionName.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									      </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-3">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addQuestionToTraining()" ng-disabled="trainingQuestionsAddForm.$invalid">Add</button>
+                                    </div>
+                                </div>
+                                <div ng-show="model.addSuccess" class="alert alert-success" role="alert">{{model.addSuccessMessage}}</div>
+                                <div ng-show="model.addError" class="alert alert-danger" role="alert">{{model.addErrorMessage}}</div>
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="addImagesModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Images</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="trainingImagesAddForm">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Image Category:</label>
+                                    <div class="col-sm-7">
+                                    	<ui-select name="trainingImageCategory" ng-model="model.imageCategories.selected" theme="select2" style="min-width: 300px;" title="Choose a question category" required="required" ng-change="model.resetMessages()">
+										    <ui-select-match placeholder="Select an image category in the list or search it...">{{$select.selected.imageCategoryName}}</ui-select-match>
+										    <ui-select-choices repeat="imageCategory in model.imageCategories | propsFilter: {imageCategoryName: $select.search}">
+										      <div ng-bind-html="imageCategory.imageCategoryName | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+										  <div ng-messages="trainingImagesAddForm.trainingImageCategory.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									      </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Image Type:</label>
+                                    <div class="col-sm-7">
+                                        <ui-select name="trainingImageType" ng-model="model.imageTypes.selected" required="required" theme="select2" style="min-width: 300px;" title="Choose a question" ng-change="model.resetMessages()">
+										    <ui-select-match placeholder="Select an image type in the list or search...">{{$select.selected.fieldValue}}</ui-select-match>
+										    <ui-select-choices repeat="imageType in model.imageTypes | propsFilter: {fieldValue: $select.search}">
+										      <div ng-bind-html="imageType.fieldValue | highlight: $select.search"></div>
+										    </ui-select-choices>
+										</ui-select>
+										<div ng-messages="trainingImagesAddForm.trainingImageType.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-4 control-label">Duration (ms):</label>
+		                            <div class="col-sm-7">
+		                                <input type="number" name="trainingImagesDuration" class="form-control" id="inputName2" placeholder="Duration in milliseconds" required="required"  ng-model="model.addImageDuration" ng-change="model.resetMessages()">
+		                                <div ng-messages="trainingImagesAddForm.trainingImagesDuration.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									    </div>
+		                            </div>
+		                        </div>
+		                        <div class="form-group required">
+		                            <label for="inputName2" class="col-sm-4 control-label">Image Count:</label>
+		                            <div class="col-sm-7">
+		                                <input type="number" name="trainingImagesCount" required="required" class="form-control" id="inputName2" placeholder="Image Count" ng-model="model.addImageCount" ng-change="model.resetMessages()">
+		                                <div ng-messages="trainingImagesAddForm.trainingImagesCount.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									    </div>
+		                            </div>
+		                        </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-3">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.addImageToTraining()" ng-disabled="trainingImagesAddForm.$invalid">Add</button>
+                                    </div>
+                                </div>
+                                <div ng-show="model.addSuccess" class="alert alert-success" role="alert">{{model.addSuccessMessage}}</div>
+                                <div ng-show="model.addError" class="alert alert-danger" role="alert">{{model.addErrorMessage}}</div>
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+<br>
+<br>
+
+<br>
+<br>
+</body>
+</html>

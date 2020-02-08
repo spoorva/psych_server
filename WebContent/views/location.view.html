@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+Bootstrap Line Tabs by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Locations</h3>
+
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active:model.isSet('search')}">
+                            <a href="" ng-click="model.setTab('search')">
+                                Search </a>
+                        </li>
+                        <li ng-class="{active:model.isSet('create')}">
+                            <a href="" ng-click="model.setTab('create')">
+                                Create </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSet('search')">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.searchLoc.name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Location Code:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Enter the location code" ng-model="model.searchLoc.locationCode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the location" ng-model="model.searchLoc.description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputEmail3" placeholder="Keywords" ng-model="model.searchLoc.keywords">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Address:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.searchLoc.address">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="City" ng-model="model.searchLoc.city">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" ng-init="model.searchLoc.state = ''" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchLoc.state" required="required">
+                                       	<option value="">Select State</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-model="model.searchLoc.zipcode">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
+                                    <div class="col-sm-7">
+                                        <input type="number" max="10" class="form-control" id="inputEmail3" placeholder="Phone Number" ng-model="model.searchLoc.phoneNo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+                                    <div class="col-sm-7">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.searchLoc.email">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.search(model.searchLoc)">Search</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+							<div ng-if="model.isSearchClicked">
+							
+           		<h4>Search Results</h4>
+           		<div class="table-responsive" id="formtable">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th> Location Name</th>
+            <th> City</th>
+            <th> State</th>
+            <th> Phone Number</th>
+            <th> Location Code</th>
+            <th> Actions</th>
+        </tr>
+     
+        </thead>
+        <tbody>
+        <tr ng-repeat = "loc in model.locationSearchResults">
+            <td><a href=""><span data-toggle="modal"
+                                                 data-target="#myModalForLocationDetails" ng-click="model.selectLocationDetails($index)"> {{loc.locationName}}</span></a></td>
+            <td> {{loc.locationCity}} </td>
+            <td> {{loc.locationState}} </td>
+            <td> {{loc.locationPhoneNumber}} </td>
+            <td> {{loc.locationCode}} </td>
+            
+            <td>
+                <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
+                                                 data-target="#myModal" ng-click="model.selectLocation($index)"></span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+           </div> 
+
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSet('create')">
+                            <div class="form-horizontal" ng-form name="model.locationCreateForm">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-2 control-label">Location Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="createLocationName" ng-maxlength="150" ng-minlength="2" class="form-control" id="inputName2" placeholder="Name of the location" ng-model="model.newLocation.name" required="required" ng-change="model.checkDuplicate('locationName', model.newLocation.name)">
+                                        <div ng-messages="model.locationCreateForm.createLocationName.$dirty && model.locationCreateForm.createLocationName.$error" style="color:maroon">
+									       	<div ng-message="required">This field is required.</div>
+									        <div ng-message="locationNameError">The location name already exists. Please enter another name.</div>
+									        <div ng-message="maxlength">Your field is too long. Max allowed: 150 chars</div>
+									        									      
+									    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" name="createLocationDescription" id="inputName3" ng-maxlength="1000" placeholder="Description of the location" ng-model="model.newLocation.description">
+                                        </textarea>
+                                        <div ng-messages="model.locationCreateForm.createLocationDescription.$dirty && model.locationCreateForm.createLocationDescription.$error" style="color:maroon">
+									        <div ng-message="maxlength">Your field is too long. Max allowed: 1000 chars.</div>
+									    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputEmail3" name="createLocationKeyWords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" placeholder="Enter keywords separated by a comma" ng-model="model.newLocation.keywords">
+                                        </textarea>
+                                        <div ng-messages="model.locationCreateForm.createLocationKeyWords.$dirty && model.locationCreateForm.createLocationKeyWords.$error" style="color:maroon">
+									       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
+									    </div>
+                                    </div>
+                                </div>
+                                
+                                 <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Location Code:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="createLocationCode" class="form-control" id="inputEmail3" ng-pattern="/^[a-z0-9]{6}$/i" placeholder="Location Code" ng-model="model.newLocation.code" ng-change="model.checkDuplicate('locationCode', model.newLocation.code)" required="required">
+                                        <div ng-messages="model.locationCreateForm.createLocationCode.$dirty && model.locationCreateForm.createLocationCode.$error" style="color:maroon">
+									       	<div ng-message="pattern">Must be 6 chars long. Can be alphanumeric.</div>
+									        <div ng-message="locationCodeError">The location code already exists. Please enter another code.</div>
+									        <div ng-message="required">This field is required.</div>
+									    </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 1:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="createLocationAddress1" id="inputEmail3" placeholder="Address" ng-minlength="2" ng-maxlength="100" ng-model="model.newLocation.address1" required="required">
+                                        <div ng-messages="model.locationCreateForm.createLocationAddress1.$dirty && model.locationCreateForm.createLocationAddress1.$error" style="color:maroon">
+									        <div ng-message="required">This field is required.</div>
+									        <div ng-message="maxlength">Your field is too long. Max allowed: 100 chars</div>
+									        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Address Line 2:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.newLocation.address2">
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">City:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="createLocationCity" id="inputEmail3" placeholder="City" ng-pattern="/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/" ng-maxlength="100" ng-model="model.newLocation.city" required="required">
+                                        <div ng-messages="model.locationCreateForm.createLocationCity.$dirty && model.locationCreateForm.createLocationCity.$error" style="color:maroon">
+  												<div ng-message="required">This field is required</div>
+  												<div ng-message="maxlength">Your field is too long. Max allowed: 100 chars</div>
+  												<div ng-message="pattern">Must be a City. Example: Boston or New York or San-Francisco</div>
+											</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">State:</label>
+                                    <div class="col-sm-7">
+                                        <select name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3" placeholder="State" ng-model="model.newLocation.state" required="required">
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Zipcode:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="createLocationZipcode" id="inputEmail3" ng-pattern="/(^\d{5}$)|(^\d{5}-\d{4}$)/" placeholder="Zipcode" ng-model="model.newLocation.zipcode" required="required">
+                                        <div ng-messages="model.locationCreateForm.createLocationZipcode.$dirty && model.locationCreateForm.createLocationZipcode.$error" style="color:maroon">
+  												<div ng-message="required">This field is required</div>
+  												<div ng-message="pattern">Must be a valid ZIP Code. Example: 02115 or 02115-1234</div>
+											</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Phone number:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" max="10" name="createLocationPhone" class="form-control" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" id="inputEmail3" placeholder="Phone Number" ng-model="model.newLocation.phoneNo" required="required">
+                                        	<div ng-messages="model.locationCreateForm.createLocationPhone.$dirty && model.locationCreateForm.createLocationPhone.$error" style="color:maroon">
+  												<div ng-message="required">This field is required</div>
+  												<div ng-message="pattern">Must be a valid 10 digit phone number</div>
+											</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Fax number:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" max="10" class="form-control" name="createLocationFax" id="inputEmail3" ng-pattern="/^\+?[0-9]{6,}$/" placeholder="Fax Number" ng-model="model.newLocation.faxNo">
+                                        <div ng-messages="model.locationCreateForm.createLocationFax.$error" style="color:maroon">
+  												<div ng-message="pattern">Must be a valid digit fax number. Should contain at least 6 digits.</div>
+											</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+                                    <div class="col-sm-7">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" name="createLocationEmailAddress" ng-model="model.newLocation.email">
+                                        <div ng-if="!model.locationCreateForm.createLocationEmailAddress.$error.required &amp;&amp;model.locationCreateForm.createLocationEmailAddress.$error.email" class="error" style="color:maroon">
+                                        You did not enter your email address correctly...
+    									</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.create(model.newLocation)" ng-disabled="model.locationCreateForm.$invalid">Create</button>
+                                    </div>
+                                </div>
+                                 <div ng-show="model.isCreateSuccessful" class="alert alert-success" role="alert">Location created successfully.</div>
+                                 <div ng-show="model.isCreateFailed" class="alert alert-danger" role="alert">Failed to create location. Please check the information entered above.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           
+
+        </div>
+    </div>
+    <!-- Modal view content -->
+       <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Location</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal " ng-form name="model.locationUpdateForm12">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Location Name:</label>
+                                    <div class="col-sm-7">
+                                    <input type="text" name="updatelocationName" class="form-control" id="inputName2" ng-minlength="3" ng-maxlength="150" placeholder="Name of the location" ng-minlength="3" ng-model="model.locationUpdate.name" required="required">
+                                   <div ng-messages="model.locationUpdateForm12.updatelocationName.$error" style="color:maroon">
+                                    <div ng-message="required">this field is required</div> 
+                                    <div ng-message="maxlength">Maximum length of this field is 150</div>
+                                    <div ng-message="minlength">Minimum length of this field is 2 characters</div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                    
+                                        <textarea type="text" name="updateDescription" class="form-control" id="inputName3" ng-maxlength="1000" placeholder="Description of the location" ng-model="model.locationUpdate.description"></textarea>
+                                      <div ng-messages="model.locationUpdateForm12.updateDescription.$error" style="color:maroon">
+                                    <div ng-message="maxlength">MAX limit is 1000 characters</div>
+                                </div>
+                                </div>
+                                </div>
+                                <!--  >div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Keywords"  >
+                                    </div>
+                                </div-->
+
+
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" name="updateLocationKeyWords" ng-pattern="/^[a-zA-Z0-9\s-,]{0,300}$/" placeholder="Enter keywords separated by a comma" ng-model="model.locationUpdate.keywords">
+                                        
+                                        <div ng-messages="model.locationUpdateForm12.updateLocationKeyWords.$dirty && model.locationUpdateForm12.updateLocationKeyWords.$error" style="color:maroon">
+									       	<div ng-message="pattern">Can be alphanumeric with ',' or '-' or space. Max allowed: 300 chars.</div>
+									    </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Address Line 1:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="updateAddressInLocation" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address1" required="required">
+                                     
+                                </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Address Line 2:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="Address" ng-model="model.locationUpdate.address2">
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="updateCity" id="inputEmail3" placeholder="City" ng-model="model.locationUpdate.city" required="required">
+                                      </div>
+                                </div>
+                                
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
+                                    <div class="col-sm-7">
+           
+                                        <select ng-init=model.locationUpdate.state name="states" ng-options='state.fieldId as state.fieldValue for state in model.statesList.results' class="form-control" id="inputEmail3"  ng-model="model.locationUpdate.state" required="required">
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Zipcode:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="updateZipcode" class="form-control" id="inputEmail3" placeholder="Zipcode" ng-pattern="/(^\d{5}$)|(^\d{5}-\d{4}$)/"  ng-model="model.locationUpdate.zipCode" required="required">
+                                  <div ng-messages="model.locationUpdateForm12.updateZipcode.$dirty && model.locationUpdateForm12.updateZipcode.$error" style="color:maroon">
+									       	<div ng-message="pattern">should be something like 02215 or 01122</div>
+									    </div>
+                                   </div>
+                                </div>
+
+                                <div class="form-group required ">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Phone number:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name = "updatePhone" id="inputEmail3" placeholder="Phone Number" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"  ng-model="model.locationUpdate.phoneNo" required="required">
+                             			<div ng-messages="model.locationUpdateForm12.updatePhone.$dirty && model.locationUpdateForm12.updatePhone.$error" style="color:maroon">
+                             			<div ng-message="required">This field is required</div>
+									       	<div ng-message="pattern">should be 10 digits</div>
+									    </div>
+                                </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Fax number:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" max="10" class="form-control" id="inputEmail3" placeholder="Fax Number" ng-model="model.locationUpdate.faxNo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Email:</label>
+                                    <div class="col-sm-7">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email" ng-model="model.locationUpdate.email">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.update(model.locationUpdate)"  ng-disabled="model.locationUpdateForm12.$invalid">Update</button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal content for Location details -->
+          <div id="myModalForLocationDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Location Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationDetailsForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Location Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationName}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Location Code:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationCode}}
+                                    </div>
+                                </div>
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationDescription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Keywords:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationKeywords}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Address Line 1:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationAddressLine1}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Address Line 2:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationAddressLine2}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationCity}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
+                                    <div class="col-sm-7 label-padding">
+           
+                                        {{model.selectedLocation.locationState}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Zipcode:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationZipCode}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Phone number:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationPhoneNumber}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Fax number:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationFaxNumber}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Email:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedLocation.locationEmail}}
+                                    </div>
+                                </div>
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<br>
+<br>
+</body>
+</html>

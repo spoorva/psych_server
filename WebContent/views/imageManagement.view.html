@@ -1,0 +1,482 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Images Management</h3>
+
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active:model.isSet('imageCategories')}">
+                            <a href="" ng-click="model.setTab('imageCategories')">
+                                Image Categories </a>
+                        </li>
+                        <li ng-class="{active:model.isSet('images')}">
+                            <a href="" ng-click="model.setTab('images')">
+                                Image </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                    <!-- Tab content for image categories begins here -->
+		                  <div class="tabbable-panel" ng-show="model.isSet('imageCategories')">
+		                	<div class="tabbable-line">
+		                    <ul class="nav nav-tabs">
+		                    	<li ng-class="{active:model.isSetSubTab('SearchImageCategories')}">
+		                            <a href="" ng-click="model.setSubTab('SearchImageCategories')">
+		                                Search </a>
+		                        </li>
+		                        <li ng-class="{active:model.isSetSubTab('createImageCategories')}">
+		                            <a href="" ng-click="model.setSubTab('createImageCategories')">
+		                                Create </a>
+		                        </li>
+		                    
+		                       </ul>
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('SearchImageCategories')">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Category Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of the Image Category" ng-model="model.searchIc.imageCategoryName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control" id="inputName3" placeholder="Description of the Image Category" ng-model="model.searchIc.imageCategoryDescription"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchImageCategory(model.searchIc)">Search</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+							<div ng-if="model.isSearchClicked">
+           		<h4>Search Results</h4>
+           		<div class="table-responsive" id="formtable">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th> Category Name</th>
+            <th> Description</th>
+            
+            <th> </th>
+        </tr>
+     
+        </thead>
+        <tbody>
+        <tr ng-repeat = "Ic in model.imageCategorySearchResults">
+            <td><a href=""> <span data-toggle="modal"
+                                                 data-target="#myModalForImageCategoryDetails" ng-click="model.selectImageCategoryDetails($index)">{{Ic.imageCategoryName}} </span></a></td>
+            <td> {{Ic.imageCategoryDescription}} </td>
+            
+           
+            <td>
+                <a href=""><span class="glyphicon glyphicon-pencil incrsize" data-toggle="modal"
+                                                 data-target="#myModal" ng-click="model.selectImageCategory($index)"></span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+           </div> 
+
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createImageCategories')">
+                            <div class="form-horizontal" ng-form name="model.locationCreateForm2">
+                               
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Category Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="catName" class="form-control" id="inputEmail3" placeholder="Name of the image category" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" ng-model="model.createIc.imageCategoryName" required="required">
+                                        <div ng-messages="model.locationCreateForm2.catName.$dirty && model.locationCreateForm2.catName.$error" style="color:maroon">									       
+									        <div ng-message="required">This field is required.</div>
+									        <div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+									      
+									    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" name= "descImg" ng-maxlength="1000" placeholder="Description of the image category" ng-model="model.createIc.imageCategoryDescription"></textarea>
+                                     <div ng-messages="model.locationCreateForm2.descImg.$error" style="color:maroon">									       
+									        
+									        <div ng-message="maxlength">maximum length of this field is 1000 characters</div>
+									      
+									    </div>
+                                    </div>
+                                </div>
+               
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.createImageCategory(model.createIc)" ng-disabled="model.locationCreateForm2.$invalid">Create</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab content for images begins here -->
+                	                  <div class="tabbable-panel" ng-show="model.isSet('images')">
+		                	<div class="tabbable-line">
+		                    <ul class="nav nav-tabs">
+		                    	<li ng-class="{active:model.isSetSubTab('searchImages')}">
+		                            <a href="" ng-click="model.setSubTab('searchImages')">
+		                                Search </a>
+		                        </li>
+		                        <li ng-class="{active:model.isSetSubTab('createImages')}">
+		                            <a href="" ng-click="model.setSubTab('createImages')">
+		                                Create </a>
+		                        </li>
+		                    
+		                       </ul>
+                        <div class="tab-pane active" id="tab_default_1" ng-show="model.isSetSubTab('searchImages')">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-2 control-label">Image Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="inputName2" placeholder="Name of image" ng-model="model.searchI.imageName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" placeholder="Description of the image" ng-model="model.searchI.imageDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchI.imageCategoryId" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
+                                        <option value="">Select Image Category</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                    <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="State" ng-model="model.searchI.imageIntensity" required="required">
+                 						<option value="">Select Image Intensity</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                       <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="State" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' ng-model="model.searchI.imageTypeId" required="required">
+                                        <option value="">Select Image Type</option>
+                                        
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+                               
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.searchImages(model.searchI)">Search</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+							<div ng-if="model.isSearchImagesClicked">
+           		<h4>Search Results</h4>
+           		<div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="img in model.imageSearchResults">
+                <a class="thumbnail" href=""><span data-toggle="modal"
+                                                 data-target="#myModalForUpdateImage" ng-click="model.selectImage($index)">
+                    <img class="img-responsive search-img" ng-src="{{img.imagePath}}" alt="Image not available">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{img.imageName}}&nbsp;<span class="glyphicon glyphicon-pencil incrsize"></span></span>
+                </a>
+                
+            </div>
+           </div> 
+
+                        </div>
+                        <div class="tab-pane active" id="tab_default_2" ng-show="model.isSetSubTab('createImages')">
+                            <div class="form-horizontal" ng-form name="model.locationCreateForm">
+                               
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Images Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="createImageName" class="form-control" id="inputEmail3" ng-pattern="/^[a-zA-Z0-9\s-,]{0,150}$/" placeholder="Image - Name" ng-model="model.createI.imageName" required="required">
+                                        <div ng-messages="model.locationCreateForm.createImageName.$dirty && model.locationCreateForm.createImageName.$error"  style="color:maroon">
+										<div ng-message="required">This is a required field</div>
+										<div ng-message="pattern">Can be alphanumeric with ',' '-' or space and max 150 characters</div>
+									      
+									    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-2 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" name="imgDesc" placeholder="Description of the Image" ng-maxlength="1000" ng-model="model.createI.imageDescription"></textarea>
+                                   <div ng-messages="model.locationCreateForm.imgDesc.$error"  style="color:maroon">
+										
+										<div ng-message="maxlength">Maximum length of this field is 1000 characters</div>
+									      
+									    </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="Category of the image" ng-model="model.createI.imageCategoryId" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
+                                        <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                  <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Intensity:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="Intensity" ng-model="model.createI.imageIntensity" required="required">
+                                    	<option value="">Select Intensity</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                       <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="Image Type" ng-model="model.createI.imageTypeId" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' required="required">
+                                        <option value="">Select Type</option>
+                                        <option value=""></option>
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                  <label for="inputEmail3" class="col-sm-2 control-label">Select Image :</label>
+                                  <div class="col-sm-7"> 
+                                <div> <input required="required" type='file' file-upload/></div>
+                                </div>
+                               </div>
+               
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.save(model.createI)" ng-disabled="model.locationCreateForm.$invalid"  >Create</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           
+
+        </div>
+    </div>
+    <!-- Modal view content -->
+       <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Image Category</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="model.UpdateForm44">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="updatingTheImageCategoryName"class="form-control" id="inputName2" ng-maxlength ="50" placeholder="Name of the Image" ng-model="model.updateIc.imageCategoryName" required="required">
+                                   <div ng-messages="model.UpdateForm44.updatingTheImageCategoryName.$error" style="color:maroon">
+                                    <div ng-message="required">this field is required</div> 
+                                    <div ng-message="maxlength">Maximum length of this field is 50 characters</div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" name="imgCD" ng-maxlength="1000" placeholder="Description of the Image" ng-model="model.updateIc.imageCategoryDescription"></textarea>
+                                        <div ng-messages="model.UpdateForm44.imgCD.$error" style="color:maroon">
+                                    <div ng-message="maxlength">Maximum length of this field is 1000 characters </div> 
+                                    </div>
+                                    </div>
+                                </div>
+                        
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImageCategory(model.updateIc)" ng-disabled="model.UpdateForm44.$invalid"  >Update</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+           <!-- Modal content for image category details -->
+          <div id="myModalForImageCategoryDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Image Category Details</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="form-horizontal" ng-form name="locationUpdateForm">
+                                <div class="form-group">
+                                    <label for="inputName2" class="col-sm-4 control-label">Category Name:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedIc.imageCategoryName}}
+                                    </div>
+                                </div>
+                                
+                                
+                              
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7 label-padding">
+                                        {{model.selectedIc.imageCategoryDescription}}
+                                    </div>
+                                </div>
+                               
+
+                                
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal view content for update image -->
+       <div id="myModalForUpdateImage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Images</h4>
+                </div>
+                <div class="row">
+                
+                
+                    <img class="img-responsive edit-img center-block thumbnail" ng-src={{model.updateI.imagePath}} alt="Image not available">
+                    
+                
+                
+            
+            </div>
+            <div class="row">
+                <div class="modal-body">
+                
+                   <div class="form-horizontal" ng-form name="model.locationUpdateForm">
+                                <div class="form-group required">
+                                    <label for="inputName2" class="col-sm-4 control-label">Image Name:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="updateImageName" class="form-control" id="inputName2" ng-maxlength ="50" placeholder="Name of the Image" ng-model="model.updateI.imageName" required="required">
+                                  <div ng-messages="model.locationUpdateForm.updateImageName.$error" style="color:maroon">
+                                    <div ng-message="required">this field is required</div> 
+                                    <div ng-message="maxlength">Max. length of this field is 50 Characters</div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Description:</label>
+                                    <div class="col-sm-7">
+                                        <textarea type="text" class="form-control" id="inputName3" name="descL" placeholder="Description of the Image" ng-maxlength="1000" ng-model="model.updateI.imageDescription"></textarea>
+                                    <div ng-messages="model.locationUpdateForm.descL.$error" style="color:maroon">                                   
+                                    <div ng-message="maxlength">Max. length of this field is 1000 Characters</div>
+                                    </div>
+                                    </div>
+                                </div>
+                        		<div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Image Category:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="states" class="form-control" id="inputEmail3" placeholder="Category of the image" ng-model="model.updateI.imageCategoryId" ng-options='ic.imageCategoryId as ic.imageCategoryName for ic in model.imageCategoryList' required="required">
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+                                  <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Intensity:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="Intensity" class="form-control" id="inputEmail3" placeholder="Intensity" ng-model="model.updateI.imageIntensity" required="required">
+                                    	
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                       <div class="form-group required">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Image Type:</label>
+                                    <div class="col-sm-7">                                     
+                                        <select name="imageType" class="form-control" id="inputEmail3" placeholder="Image Type" ng-model="model.updateI.imageTypeId" ng-options='ic.fieldId as ic.fieldValue for ic in model.imageTypeList' required="required">
+                                        
+                                        <option value=""></option>
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                  <label for="inputEmail3" class="col-sm-4 control-label">Select Image :</label>
+                                  <div class="col-sm-7"> 
+                                <div> <input type='file' file-upload/></div>
+                                </div>
+                               </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="model.updateImage(model.updateI)"  ng-disabled="model.locationUpdateForm.$invalid"  >Update</button>
+                                    </div>
+                                </div>
+                                <!-- <div ng-show="model.updateMessage" class="alert alert-success" role="alert">{{model.updateMessage}}</div>
+                                 <div ng-show="model.updateErrorMessage" class="alert alert-danger" role="alert">{{model.updateErrorMessage}}</div>-->
+                            </div>
+                    
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
