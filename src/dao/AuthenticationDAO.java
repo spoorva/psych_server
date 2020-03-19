@@ -19,7 +19,7 @@ public class AuthenticationDAO{
 		
 		slf4jLogger.info("Entered into validateUser");
 		
-		String selectQuery = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ?";
+		String selectQuery = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLE FROM ADMIN WHERE EMAIL = ? AND PASSWORD = ?";
 		
 		Connection connection = null;
 		
@@ -29,7 +29,7 @@ public class AuthenticationDAO{
 			PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 			
 			preparedStatement.setString(1, email);
-//			preparedStatement.setString(2, password);
+			preparedStatement.setString(2, password);
 			
 			// execute select SQL stetement
 			ResultSet rs = preparedStatement.executeQuery();
@@ -44,6 +44,7 @@ public class AuthenticationDAO{
 				
 				String roleValue = AuthenticationDAO.getFieldNameByFieldId(roleFieldID);
 				adminDetails.setRole(roleValue);
+				slf4jLogger.info(roleValue);
 				connection.close();
 				return adminDetails;
 			}

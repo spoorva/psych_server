@@ -33,7 +33,7 @@
         	console.log("Data being sent: " + user.email + " " + user.password);
             return $http ({
                 method: 'POST',
-                url: 'adminAuthentication',
+                url: serverURL.url + 'adminAuthentication',
                 contentType: 'application/json',
                 data: {
     				email: user.email,

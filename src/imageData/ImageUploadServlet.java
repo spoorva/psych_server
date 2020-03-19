@@ -409,6 +409,7 @@ public class ImageUploadServlet extends HttpServlet {
 		InputStream in = new BufferedInputStream(imageInfo.getInputStream());
 		OutputStream out = null;
 		try {
+			System.out.println(imageInfo.getImageFullPath());
 			out = new FileOutputStream(new File(imageInfo.getImageFullPath()));
 			IOUtils.copy(in,out);
 			return true;

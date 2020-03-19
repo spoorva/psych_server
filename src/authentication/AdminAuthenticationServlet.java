@@ -53,10 +53,11 @@ public class AdminAuthenticationServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		Boolean valid = false;
+		System.out.println(Sessions.isValidAdminSession(session));
+		System.out.println(session.getAttribute(Constant.EMAIL));
 		if(Sessions.isValidAdminSession(session)){
 			
-			loggedIn = request.getParameter(Constant.LOGGED_IN);
-			
+			loggedIn = request.getParameter(Constant.LOGGED_IN);			
 			logout = request.getParameter(Constant.LOGOUT);
 			
 			if(loggedIn != null){
