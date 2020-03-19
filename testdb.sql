@@ -168,7 +168,7 @@ VALUES
 
 INSERT INTO QuestionCategory(name, description, startLabel, endlabel, responseType)
 VALUES
-("question category 1", "test question category", "start", "end", 1);
+("question category 1", "test question category", "start", "end", 3);
 
 
 INSERT INTO QUESTION (name, description, categoryId) VALUES ("question 1", "test question", 1);
@@ -179,7 +179,7 @@ VALUES
 
 INSERT INTO Image(name, description, categoryId, imageloc, imageType, intensity)
 VALUES
-("image 1", "test image", 2, "C:\Users\Tim\Desktop\Test.jpg", 1, 5);
+("image 1", "test image", 1, "C:\Users\Tim\Desktop\Test.jpg", 2, 5);
 
 
 INSERT INTO FieldLookup(fieldname)
@@ -216,4 +216,4 @@ colorblind,targetGroupId) values ("tim", "qwerty", 24, "male","white", "none", "
 INSERT INTO TRAININGQUESTIONMAP (TRAININGID, QUESTIONID) VALUES (1, 1);
 
 INSERT INTO TRAININGIMAGEMAP (TRAININGID, IMAGECATEGORYID, DURATION, NOOFIMAGES, IMAGETYPE)
-VALUES (1, 1, 1, 1, 1);
+VALUES (1, 1, 1, 1, 2);

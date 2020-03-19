@@ -229,8 +229,6 @@
                 	};*/
             	//console.log(imageProp);
             	console.log("Inside save function");
-            	console.log(angular.toJson('filename 123'));
-            	console.log(angular.toJson({'name' : 'filename'}));
             	/*var formData = new FormData();
                 
                 formData.append('model', 'hfhefhoewoew');
@@ -248,6 +246,7 @@
                     
                     transformRequest: function (data) {
                         var formData = new FormData();
+                        console.log($scope.files[0]);
                         
                         formData.append('imageName', img.imageName);
                         formData.append('imageDescription', img.imageDescription);
@@ -296,7 +295,7 @@
                 	.success(function(response) {
                 		if(response.status === '200')
                 			imageList = response.results;
-                		
+                			console.log(imageList);
                 			for(var img in imageList) {
                 				//console.log(img);
                 				//console.log(serverURL);

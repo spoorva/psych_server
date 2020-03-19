@@ -100,6 +100,7 @@ public class ImageUploadServlet extends HttpServlet {
 			String imagePath = request.getParameter(Constant.IMAGE_PATH);
 			try{
 				File f = new File(imageFolder+"/"+imagePath);
+				slf4jLogger.info(f.toString());
 				FileInputStream fis = new FileInputStream(f);
 				int b = 0;
 				while ((b = fis.read()) != -1) {
@@ -132,6 +133,7 @@ public class ImageUploadServlet extends HttpServlet {
 				
 				try{
 					File f = new File(imageFolder+"/"+imagePath);
+					slf4jLogger.info(f.toString());
 					FileInputStream fis = new FileInputStream(f);
 					int b = 0;
 					while ((b = fis.read()) != -1) {
